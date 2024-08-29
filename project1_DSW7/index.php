@@ -7,8 +7,17 @@ if(isset($_SESSION['message'])){
     $message = $_SESSION['message'];
 }else {
     $message = null;
-
 }
+
+if(isset($_SESSION['user'])){
+    if($_SESSION['es_admin'] === true){
+        header("location: pages/adminHome.php");
+    }else {
+        header("location: pages/Home.php");
+    }
+}
+
+
 ?>
 
 
@@ -66,7 +75,7 @@ if(isset($_SESSION['message'])){
       });
 
       <?php 
-        session_destroy();
+        //session_destroy();
       ?>
     }
 
@@ -75,6 +84,6 @@ if(isset($_SESSION['message'])){
 
     </script>
         
-    <script src="js/design.js"></script>
+    <script src="js/designIndex.js"></script>
 </body>
 </html>>
