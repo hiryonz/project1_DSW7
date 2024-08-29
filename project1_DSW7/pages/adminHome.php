@@ -4,7 +4,23 @@ if (!isset($_SESSION['user']) || $_SESSION['es_admin'] != true) {
     header("Location: ../index.php");
     exit();
 }
+
+// Tiempo de expiración en segundos (5 minutos)
+$session_timeout = 200; // 5 * 60 segundos
+
+// Verifica si existe una marca de tiempo de la última actividad
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $session_timeout) {
+    // La sesión ha expirado
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php"); // Redirige al usuario a la página de login
+    exit();
+}
+
+// Actualiza la marca de tiempo de la última actividad
+$_SESSION['LAST_ACTIVITY'] = time();
 ?>
+
 
 <html lang="en">
 <head>
@@ -18,7 +34,8 @@ if (!isset($_SESSION['user']) || $_SESSION['es_admin'] != true) {
 <body>
     <h1>user: d72024, pass: 1234567, si eres admins yupiiiii <?php echo $_SESSION['es_admin'] ?></h1>
     
+    <button class="cerrar-session1">cerrar session</button>
     
-
+    <script src="../js/closeSession.js"></script>
 </body>
 </html>>

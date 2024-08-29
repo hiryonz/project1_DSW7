@@ -6,7 +6,23 @@ if (!isset($_SESSION['user'])) {
 }
 //$message = $_SESSION['user'];
 
+
+// Tiempo de expiración en segundos (5 minutos)
+$session_timeout = 300; // 5 * 60 segundos
+
+// Verifica si existe una marca de tiempo de la última actividad
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $session_timeout) {
+    // La sesión ha expirado
+    session_unset();
+    session_destroy();
+    header("Location: ../index.php"); // Redirige al usuario a la página de login
+    exit();
+}
+
+// Actualiza la marca de tiempo de la última actividad
+$_SESSION['LAST_ACTIVITY'] = time();
 ?>
+
 
 <html lang="en">
 <head>
@@ -20,7 +36,8 @@ if (!isset($_SESSION['user'])) {
 <body>
     <h1>no eres admin xD</h1>
     
+    <button class="cerrar-session2">cerrar session</button>
     
-
+    <script src="../js/closeSession.js"></script>
 </body>
 </html>>
